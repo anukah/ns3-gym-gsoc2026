@@ -16,17 +16,13 @@ if(NOT Protobuf_FOUND)
   return()
 endif()
 
-set(proto_source_files
-    model/messages.proto
-)
-
 set(source_files
     helper/opengym-helper.cc
     model/container.cc
+    model/messages.pb.cc
     model/opengym_env.cc
     model/opengym_interface.cc
     model/spaces.cc
-    ${proto_source_files}
 )
 
 set(header_files
@@ -58,17 +54,21 @@ else()
   include(${CMAKE_CURRENT_SOURCE_DIR}/protobuf-generate.cmake)
 endif()
 
+# Use a separate OBJECT library for proto generation (ns-3.45 compatible)
+add_library(opengym-proto-objects OBJECT "${CMAKE_CURRENT_SOURCE_DIR}/model/messages.proto")
 
 protobuf_generate(
-  TARGET ${libopengym-obj}
-  IMPORT_DIRS model/
+  TARGET opengym-proto-objects
+  IMPORT_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/model"
   LANGUAGE cpp
   PROTOC_OUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/model
 )
 
 protobuf_generate(
-  TARGET ${libopengym-obj}
-  IMPORT_DIRS model/
+  TARGET opengym-proto-objects
+  IMPORT_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/model"
   LANGUAGE python
   PROTOC_OUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/model/ns3gym/ns3gym
 )
+
+add_dependencies(${libopengym} opengym-proto-objects)

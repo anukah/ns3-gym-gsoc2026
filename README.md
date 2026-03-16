@@ -3,6 +3,8 @@ ns3-gym
 
 [OpenAI Gym](https://gym.openai.com/) is a toolkit for reinforcement learning (RL) widely used in research. The network simulator [ns-3](https://www.nsnam.org/) is the de-facto standard for academic and industry studies in the areas of networking protocols and communication technologies. ns3-gym is a framework that integrates both OpenAI Gym and ns-3 in order to encourage usage of RL in networking research.
 
+This fork supports ns-3.45, changes for nr module available in this [fork](https://gitlab.com/anukah/nr-opengym-compat/-/tree/fix/ns3-45-cmake-ai-linkage?ref_type=heads)
+
 Installation
 ============
 
